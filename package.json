@@ -6,7 +6,7 @@
   "types": "types.d.ts",
   "scripts": {
     "start": "webpack --config webpack.config.js",
-    "build": "npm run lint && npm run compile && webpack --config webpack.config.js --prod",
+    "build": "npm run compile && webpack --config webpack.config.js --mode production",
     "test": "npm run lint && mochapack \"test/**/*.spec.js\"",
     "lint": "eslint src",
     "compile": "babel src -d lib",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/taozhi8833998/node-sql-parser.git"
+    "url": "git+https://github.com/Journely/node-sql-parser.git"
   },
   "pre-commit": "coverLocal",
   "keywords": [
