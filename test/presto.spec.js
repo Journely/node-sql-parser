@@ -17,10 +17,24 @@ describe("Presto", () => {
     FROM "MyTable" as ST
     WHERE (ST.3_year_base_employee_count= 390)
     GROUP BY ST.bankruptcy_date,ST.3_year_base_employee_count`;
-    const ast = parser.astify(sql, { database: "Presto" });
-    const backSQL = parser.sqlify(ast);
+    const ast = parser.astify(sql, opt);
+    const backSQL = parser.sqlify(ast, opt);
     expect(backSQL).to.be.equal(
-      "SELECT MIN(`salary`) FROM `MyTable` AS `ST` WHERE (`ST`.`3_year_base_employee_count` = 390) GROUP BY `ST`.`bankruptcy_date`, `ST`.`3_year_base_employee_count`"
+      "SELECT MIN(salary) FROM MyTable AS ST WHERE (ST.3_year_base_employee_count = 390) GROUP BY ST.bankruptcy_date, ST.3_year_base_employee_count"
     );
+  });
+
+  it("should cast to REAL", () => {
+    const sql = `SELECT CAST (1 AS REAL) FROM "MyTable" as ST`;
+    const ast = parser.astify(sql, opt);
+    const backSQL = parser.sqlify(ast, opt);
+    expect(backSQL).to.be.equal("SELECT CAST(1 AS REAL) FROM MyTable AS ST");
+  });
+
+  it("should support CURRENT_DATE", () => {
+    const sql = `SELECT current_date as reportDate`;
+    const ast = parser.astify(sql, opt);
+    const backSQL = parser.sqlify(ast, opt);
+    expect(backSQL).to.be.equal("SELECT CURRENT_DATE AS reportDate");
   });
 });

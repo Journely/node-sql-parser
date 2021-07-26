@@ -8,7 +8,7 @@ const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 
 const isCoverage = process.env.NODE_ENV === "coverage";
-const isProd = true;
+const isProd = process.argv.includes("--mode=production");
 const isTest = isCoverage || process.argv.includes("--test");
 const subDir = isProd ? "output/prod" : isTest ? "output/test" : "output/dev";
 const outputPath = path.join(__dirname, subDir);
@@ -69,6 +69,7 @@ const getDbFile = () =>
     "postgresql",
     "transactsql",
     "flinksql",
+    "presto",
   ]
     .map(getCopyFile)
     .reduce((prev, curr) => [...prev, ...curr], []);

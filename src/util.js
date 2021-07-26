@@ -14,7 +14,7 @@ import { columnRefToSQL, columnOrderToSQL } from "./column";
 // }
 
 const DEFAULT_OPT = {
-  database: PARSER_NAME || "mysql",
+  database: PARSER_NAME || "presto",
   type: "table",
 };
 
@@ -135,6 +135,8 @@ function columnIdentifierToSql(ident) {
     case "postgresql":
     case "db2":
       return `"${ident}"`;
+    case "presto":
+      return `${ident}`;
     case "transactsql":
       return `[${ident}]`;
     case "mysql":
@@ -155,6 +157,8 @@ function identifierToSql(ident, isDual) {
       return `\`${ident}\``;
     case "postgresql":
       return `"${ident}"`;
+    case "presto":
+      return `${ident}`;
     case "transactsql":
       return `[${ident}]`;
     case "bigquery":
